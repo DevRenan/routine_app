@@ -3,7 +3,7 @@ class Task < ApplicationRecord
   belongs_to :frequency
 
   validates :title, presence: true
-  validates :weight, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :weight, numericality: { only_integer: true}
 
   # A task está concluída dentro do ciclo atual?
   def completed?(now = Time.current)
