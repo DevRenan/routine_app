@@ -14,7 +14,14 @@ class TasksController < ApplicationController
   # Rota para alternar conclusão
   def toggle_completion
     @task.toggle_completion!
-    redirect_to tasks_path, notice: "Status da task atualizado."
+
+    if @task.completed?
+      session[:task_completed] = true
+      redirect_to tasks_path, notice: "Tarefa concluída! 🎉"
+    else
+      session.delete(:task_completed)
+      redirect_to tasks_path, notice: "Tarefa reaberta."
+    end
   end
 
   def new

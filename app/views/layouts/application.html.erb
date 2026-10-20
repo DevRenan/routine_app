@@ -21,9 +21,10 @@
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js" defer></script>
   </head>
 
-  <body>
+  <body data-task-completed="<%= session.delete(:task_completed) ? 'true' : 'false' %>">
     <%= yield %>
   </body>
 </html>
