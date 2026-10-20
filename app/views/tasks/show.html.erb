@@ -1,0 +1,54 @@
+<div class="tasks-page">
+  <header class="tasks-header">
+    <div>
+      <h1>Detalhes da tarefa</h1>
+      <p class="tasks-subtitle">Consulte as informações desta tarefa.</p>
+    </div>
+  </header>
+
+  <% if notice.present? %>
+    <div class="categories-notice"><%= notice %></div>
+  <% end %>
+
+  <section class="task-item task-show-item <%= 'task-item--completed' if @task.completed? %>">
+    <div class="task-checkbox">
+      <%= button_to toggle_completion_task_path(@task),
+                    method: :patch,
+                    class: "task-checkbox-button",
+                    form: { class: "task-checkbox-form" },
+                    aria: { label: @task.completed? ? "Reabrir tarefa" : "Concluir tarefa" } do %>
+        <span class="task-checkbox-icon" aria-hidden="true">
+          <%= "✓" if @task.completed? %>
+        </span>
+      <% end %>
+    </div>
+
+    <div class="task-content">
+      <span class="task-title"><%= @task.title %></span>
+
+      <div class="task-details">
+        <span class="task-frequency"><%= @task.frequency.title %></span>
+        <span class="task-weight">Peso <%= @task.total_weight %></span>
+      </div>
+
+      <% if @task.description.present? %>
+        <p class="task-description"><%= @task.description %></p>
+      <% end %>
+    </div>
+
+    <div class="task-categories">
+      <span
+        class="task-category-dot"
+        style="--category-color: <%= @task.category.color.presence || '#9CA3AF' %>"
+        title="<%= @task.category.title %>"
+        aria-label="Categoria: <%= @task.category.title %>"
+        role="img">
+      </span>
+    </div>
+  </section>
+
+  <div class="task-show-actions">
+    <%= link_to "Editar tarefa", edit_task_path(@task), class: "task-form-submit" %>
+    <%= link_to "Voltar para tarefas", tasks_path, class: "task-form-cancel" %>
+  </div>
+</div>

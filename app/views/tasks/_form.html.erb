@@ -1,0 +1,68 @@
+<%= form_with(model: task, html: { class: "task-form" }) do |form| %>
+  <% if task.errors.any? %>
+    <div class="task-form-errors">
+      <h2>
+        <%= pluralize(task.errors.count, "erro") %>
+        impediram a tarefa de ser salva:
+      </h2>
+
+      <ul>
+        <% task.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="task-form-field">
+    <%= form.label :title, "Título" %>
+    <%= form.text_field :title,
+                        placeholder: "Ex.: Estudar estruturas de dados",
+                        autofocus: true,
+                        required: true %>
+  </div>
+
+  <div class="task-form-field">
+    <%= form.label :description, "Descrição" %>
+    <%= form.text_area :description,
+                       placeholder: "Adicione detalhes sobre essa tarefa...",
+                       rows: 4 %>
+  </div>
+
+  <div class="task-form-field">
+    <%= form.label :weight, "Peso da tarefa" %>
+    <%= form.number_field :weight,
+                          min: 0,
+                          placeholder: "Ex.: 3",
+                          required: true %>
+    <small>Defina a importância da tarefa.</small>
+  </div>
+
+  <div class="task-form-field">
+    <%= form.label :category_id, "Categoria" %>
+
+    <%= form.collection_select :category_id,
+                               Category.order(:weight),
+                               :id,
+                               :title,
+                               { prompt: "Selecione uma categoria" },
+                               { required: true } %>
+  </div>
+
+  <div class="task-form-field">
+    <%= form.label :frequency_id, "Frequência" %>
+
+    <%= form.collection_select :frequency_id,
+                               Frequency.all,
+                               :id,
+                               :title,
+                               { prompt: "Selecione uma frequência" },
+                               { required: true } %>
+  </div>
+
+  <div class="task-form-actions">
+    <%= form.submit "Salvar tarefa", class: "task-form-submit" %>
+
+    <%= link_to "Cancelar", tasks_path, class: "task-form-cancel" %>
+  </div>
+<% end %>

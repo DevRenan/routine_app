@@ -1,0 +1,57 @@
+<div class="tasks-page">
+  <header class="tasks-header">
+    <div>
+      <h1>Categorias</h1>
+      <p class="tasks-subtitle">
+        Organize suas tarefas por áreas da vida.
+      </p>
+    </div>
+
+    <%= link_to "＋ Nova categoria",
+                new_category_path,
+                class: "new-task-button" %>
+  </header>
+
+  <% if notice.present? %>
+    <div class="categories-notice">
+      <%= notice %>
+    </div>
+  <% end %>
+
+  <section class="categories-list" aria-label="Lista de categorias">
+    <% @categories.each do |category| %>
+      <article class="category-item">
+        <span
+            class="task-category-dot"
+            style="--category-color: <%= category.color.presence || '#9CA3AF' %>"
+            title="<%= category.title %>"
+            aria-label="Cor da categoria: <%= category.title %>"
+            role="img">
+        </span>
+
+        <div class="category-content">
+          <span class="category-title">
+            <%= category.title %>
+          </span>
+
+          <span class="category-weight">
+            Peso <%= category.weight %>
+          </span>
+        </div>
+
+        <%= link_to "Visualizar",
+                    category_path(category),
+                    class: "category-show-link" %>
+      </article>
+    <% end %>
+
+    <% if @categories.empty? %>
+      <div class="tasks-empty">
+        <p>Nenhuma categoria cadastrada.</p>
+
+        <%= link_to "Criar primeira categoria",
+                    new_category_path %>
+      </div>
+    <% end %>
+  </section>
+</div>

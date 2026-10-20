@@ -1,0 +1,63 @@
+<div class="tasks-page">
+  <header class="tasks-header">
+    <div>
+      <h1>Minhas tarefas</h1>
+      <p class="tasks-subtitle">Organize suas tarefas, um passo de cada vez.</p>
+    </div>
+
+    <%= link_to "＋ Nova tarefa", new_task_path, class: "new-task-button" %>
+  </header>
+
+  <section class="tasks-list" aria-label="Lista de tarefas">
+    <% @tasks.each do |task| %>
+      <% is_completed = task.completed? %>
+
+      <article class="task-item <%= 'task-item--completed' if is_completed %>">
+        <div class="task-checkbox">
+          <%= button_to toggle_completion_task_path(task),
+                        method: :patch,
+                        class: "task-checkbox-button",
+                        form: { class: "task-checkbox-form" },
+                        aria: {
+                          label: is_completed ? "Reabrir tarefa: #{task.title}" : "Concluir tarefa: #{task.title}"
+                        } do %>
+            <span class="task-checkbox-icon" aria-hidden="true">
+              <%= "✓" if is_completed %>
+            </span>
+          <% end %>
+        </div>
+
+        <div class="task-content">
+          <span class="task-title"><%= task.title %></span>
+
+          <div class="task-details">
+            <span class="task-frequency">
+              <%= task.frequency.title %>
+            </span>
+
+            <span class="task-weight">
+              Peso <%= task.total_weight %>
+            </span>
+          </div>
+        </div>
+
+        <div class="task-categories">
+          <span
+            class="task-category-dot"
+            style="--category-color: <%= task.category.color.presence || '#9CA3AF' %>"
+            title="<%= task.category.title %>"
+            aria-label="Categoria: <%= task.category.title %>"
+            role="img">
+          </span>
+        </div>
+      </article>
+    <% end %>
+
+    <% if @tasks.empty? %>
+      <div class="tasks-empty">
+        <p>Nenhuma tarefa por aqui.</p>
+        <%= link_to "Criar minha primeira tarefa", new_task_path %>
+      </div>
+    <% end %>
+  </section>
+</div>

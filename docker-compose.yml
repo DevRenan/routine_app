@@ -1,0 +1,16 @@
+services:
+  web:
+    build: .
+    container_name: routine_app
+    ports:
+      - "3000:80"
+    environment:
+      RAILS_ENV: production
+      SECRET_KEY_BASE: "9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a0b9c8d7e6f5a4b3c2d1e0f9a8b"
+      # Descomente a linha abaixo e insira sua chave real caso use credenciais encriptadas
+      # RAILS_MASTER_KEY: "sua_chave_do_file_config_master_key"
+    volumes:
+      - sqlite_data:/rails/db
+
+volumes:
+  sqlite_data:
