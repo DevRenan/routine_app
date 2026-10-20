@@ -32,6 +32,7 @@
   <div class="task-form-field">
     <%= form.label :weight, "Peso da tarefa" %>
     <%= form.number_field :weight,
+                          min: nil,
                           step:1,
                           placeholder: "Ex.: 3, -1",
                           required: true %>
