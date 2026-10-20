@@ -108,3 +108,32 @@ tasks_data.each do |task_info|
 end
 
 puts "Frequências atualizadas, Categoria garantida e #{tasks_data.size} Tasks cadastradas com sucesso!"
+
+
+# db/seeds.rb
+
+# 1. Buscar/Garantir a Categoria "Estudo/Carreira/Graduação" (Peso 0)
+estudo_category = Category.find_or_create_by!(title: "Estudo/Carreira/Graduação") do |c|
+  c.weight = 0
+  c.color = "#22C55E" # Verde
+end
+
+# 2. Buscar/Garantir a Frequência "Diária" (Peso 0)
+daily_frequency = Frequency.find_or_create_by!(title: "Diária") do |f|
+  f.weight = 0
+end
+
+# 3. Criar 16 registros da tarefa "30 minutos Estudo / Carreira / Graduação"
+16.times do |i|
+  # Usando find_or_create_by! especificando a iteração na descrição para garantir a criação das 16 instâncias sem duplicidade
+  Task.find_or_create_by!(
+    title: "30 minutos Estudo / Carreira / Graduação",
+    description: "Bloco de estudo/carreira ##{i + 1}",
+    category: estudo_category,
+    frequency: daily_frequency
+  ) do |t|
+    t.weight = 0
+  end
+end
+
+puts "16 tarefas de Estudo / Carreira / Graduação criadas com sucesso!"
